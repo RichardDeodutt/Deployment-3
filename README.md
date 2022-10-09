@@ -27,7 +27,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
 
-- Set the `Key pair(login)` to any keypair you have access to or create one, `Network Settings` set the security group to one with ports 80, 8080 and 22 open or create one with those ports open. For `Network` use the default VPC and network settings. Launch with `default settings` for the rest is fine. 
+- Set the `Key pair(login)` to any keypair you have access to or create one. `Network Settings` set the security group to one with ports 80, 8080 and 22 open or create one with those ports open. For `Network` use the default VPC and network settings. Launch with `default settings` for the rest is fine. 
 
 - `SSH or connect` to the ec2 when it is running. 
 
@@ -98,6 +98,86 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ```
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
+
+</details>
+
+## Step 2: Create a Jenkins user in your AWS account using IAM in the AWS Console if you don't have one
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Create a user in [AWS IAM](https://us-east-1.console.aws.amazon.com/iamv2/home) for jenkins to get access with username `Eb-user` and AWS credential type of `Access key - Programmatic access`. 
+
+- Then select `Attach existing policies directly` and select `AdministratorAccess` permissions policy then click next tags and then next review to skip the tags and review the changes to be made. 
+
+- Review the changes to be made and click create user when ready and save the information provided after creation such as the `Access key ID` and `Secret access key` or download the csv with the information for future use. 
+
+</details>
+
+## Step 3: Connect GitHub to the Jenkins server
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Create/Generate a [personal access token in GitHub](https://github.com/settings/tokens) for the Jenkins server and webhook if you don't have one. I added all the `repo`, `admin:repo_hook` and `notifications` permissions. When done save the token for future use. 
+
+- Fork the [deployment repository](https://github.com/kura-labs-org/kuralabs_deployment_3) and using this forked repository connect it to the Jenkins server webhook in the settings of the newly forked repository. 
+
+- Connect the webhook by configuring the setting as the following. 
+
+    <details>
+
+    <summary>Settings</summary>
+
+    - The `Payload URL` to your Jenkins server webhook. 
+
+        Example `Payload URL`
+        ```
+        http://35.77.201.219:8080/github-webhook/
+        ```
+    
+    - The `Content type` to application/json. 
+    
+    - The `Which events would you like to trigger this webhook?` to 'Send me everything.'. 
+    
+    - The `Active` checkbox to checked. 
+
+    </details>
+    
+- Then when everything is set click `Add webhook` to connect the forked repository to the Jenkins server webhook. 
+
+</details>
+
+## Step 4: Configure the Jenkins server
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Navigate to the Jenkins page using the url in a browser. 
+
+    Example URL
+    ```
+    http://35.77.201.219:8080/
+    ```
+
+- Enter the `secret password or initial admin password` you saved earlier or get it again and enter it then click Continue. 
+
+    Example below: 
+
+    ```
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
+
+- For the `Customize Jenkins page` just click Install suggested plugins and wait for it to install the plugins `which may take some time`. 
+
+- Once that is done you will have a `Create First Admin User` page so fill out that page and save the information for future logins then click Save and Continue. 
+
+- After that is a `Instance Configuration` page where the default `Jenkins URL` should be correct already is similar to `http://35.77.201.219:8080/` so click Save and Finish. 
+
+- The next page is the `Jenkins is ready!` page where you just click Start using Jenkins to finish configuring the Jenkins server and go to the home page. 
 
 </details>
 
@@ -177,7 +257,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Install Jenkins Agent</summary>
 
-    - To install the Jenkins agent. 
+    - To install the Jenkins agent dependencies. 
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/installagent.sh && sudo chmod +x installagent.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installagent.sh
