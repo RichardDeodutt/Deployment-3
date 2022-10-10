@@ -314,7 +314,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     Example below: 
 
     ```
-    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/nginx-default | tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
     ```
 
 </details>
