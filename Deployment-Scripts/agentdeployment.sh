@@ -226,10 +226,6 @@ main(){
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $RepositoryURL" || { logerror "Failure cloning $RepositoryURL" && exiterror ; }
     #Install agent if not already
     installagent
-    #Install the AWS CLI if not already
-    installawscli
-    #Install the AWS EB CLI if not already
-    installawsebcli
     #Install the Cy Depends if not already
     installcydepends
     #Delay for 10 seconds to load
