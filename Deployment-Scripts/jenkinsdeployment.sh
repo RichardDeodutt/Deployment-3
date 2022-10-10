@@ -190,8 +190,8 @@ main(){
     git clone $RepositoryURL > /dev/null 2>&1 && logokay "Successfully cloned $RepositoryURL" || logwarning "Failure cloning $RepositoryURL"
     #Install jenkins if not already
     installjenkins
-    #Delay for 10 seconds to load
-    sleep 10
+    #Delay to load
+    sleep 30
     #Status check
     statuscheck
 }

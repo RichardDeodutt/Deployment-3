@@ -205,7 +205,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
         - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-3' directory and the 'aws' directory if it was created from a previous deployment.** 
 
             ```
-            cd && sudo rm -r Deployment-3 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
+            cd && sudo rm -r Deployment-3 ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
             ```
 
 </details>
