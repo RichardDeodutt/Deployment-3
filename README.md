@@ -193,7 +193,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
         Example `Payload URL`
         ```
-        http://35.77.201.219:8080/github-webhook/
+        http://35.77.201.219/github-webhook/
         ```
     
     - The `Content type` to application/json. 
@@ -218,7 +218,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     Example URL
     ```
-    http://35.77.201.219:8080/
+    http://35.77.201.219/
     ```
 
 - Enter the `secret password or initial admin password` you saved earlier or get it again and enter it then click Continue. 
@@ -233,7 +233,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Once that is done you will have a `Create First Admin User` page so fill out that page and save the information for future logins then click Save and Continue. 
 
-- After that is a `Instance Configuration` page where the default `Jenkins URL` should be correct already is similar to `http://35.77.201.219:8080/` so click Save and Finish. 
+- After that is a `Instance Configuration` page where the default `Jenkins URL` should be correct already is similar to `http://35.77.201.219/` so click Save and Finish. 
 
 - The next page is the `Jenkins is ready!` page where you just click Start using Jenkins to finish configuring the Jenkins server and go to the home page. 
 
@@ -396,6 +396,90 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ```
     sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
     ```
+
+</details>
+
+## Step 6: Update the forked repository
+
+<details>
+
+<summary>Step by Step</summary>
+
+- `Clone or download` [this repository](https://github.com/RichardDeodutt/Deployment-3) to get the files locally on your computer. 
+
+    Example below: 
+
+    ```
+    git clone git@github.com:RichardDeodutt/Deployment-3.git
+    ```
+
+- `Clone your forked repository` in my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 if you have not already done so to have it locally on your computer. 
+
+    Example below: 
+
+    ```
+    git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git
+    ```
+
+- `Everything` in the folder [Modified-Application-Files](https://github.com/RichardDeodutt/Deployment-3/tree/main/Modified-Application-Files) should be `copied over` to the `root` of your forked repository. In my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 and it should replace and overwrite the existing files there. 
+
+    Example below: 
+
+    ```
+    cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/
+    ```
+
+- You may want to edit the [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/Jenkinsfile) on your forked repository to have the `Deploy` stage use the region of your choice in my case I selected ap-northeast-1.
+
+- Once these changes are made and the newly forked repository is `patched` `commit` and `push` these changes to make sure they are on your `online GitHub repository` as in the website. 
+
+    Example below: 
+
+    ```
+    git add .
+    ```
+
+    ```
+    git commit -m "Update"
+    ```
+
+    ```
+    git push
+    ```
+
+</details>
+
+## Step 7: Create a Multibranch Pipeline for the forked repository
+
+<details>
+
+<summary>Step by Step</summary>
+
+- In the Jenkins server homepage click `New Item` to create a new pipeline then when it loads the page enter a `item name` in my case I named it `Deployment-3` and then select `Multibranch Pipeline` clicking `OK` once done. 
+
+- On the Configuration page for the new pipeline enter the following settings. 
+
+    <details>
+
+    <summary>Settings</summary>
+
+    - On `Branch Sources` click `Add source` and select `GitHub`. On the new `GitHub section` under `Credentials` click `+ Add` and select `Jenkins`. When the popup loads under `Username` enter your exact GitHub username then under `Password` enter your exact [personal access token in GitHub](https://github.com/settings/tokens) you created and saved earlier then click `Add` to add your GitHub credentials to this Jenkins server. 
+    
+    - Under `Credentials` where it says `- none -` click it to open the dropdown menu and select the GitHub credentials you just added. 
+    
+    - Where it says `Repository HTTPS URL` under it enter your forked repository URL in my case it would be https://github.com/RichardDeodutt/kuralabs_deployment_3 then click `Validate`. It should say it's ok. 
+
+        Example below: 
+
+        ```
+        Credentials ok. Connected to https://github.com/RichardDeodutt/kuralabs_deployment_3.
+        ```
+    
+    - This `may not be needed` but if you created `more branches` in your fork but want to work with one you can scroll down until you see `Property strategy`. Above that should be a `Add` button, click that and select `Filter by name (with wildcards)`. Under Include enter `main` and use wildcards or * to select and exclude unwated branches in my case I had a `original` branch so under `Exclude` I entered `o*` to exclude it. 
+
+    </details>
+
+- Once the pipeline is configured click `Apply` and `Save`. 
 
 </details>
 
