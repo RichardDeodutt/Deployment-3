@@ -16,6 +16,9 @@ LogFileName="InstallJenkins.log"
 #Set the log file location and name
 setlogs
 
+#The configuration for nginx
+ConfigNginx="https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default"
+
 #The main function
 main(){
     #Adding the Keyrings if not already
@@ -33,8 +36,23 @@ main(){
     #Install jenkins if not already
     aptinstalllog "jenkins"
 
+    #Enable the Jenkins service if not already
+    systemctl enable jenkins && logokay "Successfully enabled jenkins" || { logerror "Failure enabling jenkins" && exiterror ; }
+
     #Start the Jenkins service if not already
-    systemctl start jenkins && logokay "Successfully started systemctl jenkins" || { logerror "Failure starting jenkins" && exiterror ; }
+    systemctl start jenkins && logokay "Successfully started jenkins" || { logerror "Failure starting jenkins" && exiterror ; }
+
+    #Install nginx if not already
+    aptinstalllog "nginx"
+
+    #Install curl if not already
+    aptinstalllog "curl"
+
+    #Download and set the nginx configuration
+    curl -s $ConfigNginx | tee /etc/nginx/sites-enabled/default > /dev/null 2>&1 && logokay "Successfully Set Nginx" || { logerror "Failure Setting Nginx" && exiterror ; }
+
+    #Restart the nginx service
+    systemctl restart nginx && logokay "Successfully restarted nginx" || { logerror "Failure restarting nginx" && exiterror ; }
 }
 
 #Log start

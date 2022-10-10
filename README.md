@@ -27,7 +27,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
 
-- Set the `Key pair(login)` to any keypair you have access to or create one. `Network Settings` set the security group to one with ports 80, 8080 and 22 open or create one with those ports open. For `Network` use the default VPC and network settings. Launch with `default settings` for the rest is fine. 
+- Set the `Key pair(login)` to any keypair you have access to or create one. `Network Settings` set the security group to one with ports 80 and 22 open or create one with those ports open. For `Network` use the default VPC and network settings. Launch with `default settings` for the rest is fine. 
 
 - `SSH or connect` to the ec2 when it is running. 
 
@@ -77,6 +77,38 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo apt install -y jenkins
     ```
 
+- `Install` the `apt` packages `nginx`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y nginx
+    ```
+
+- `Install` the `apt` packages `curl`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y curl
+    ```
+
+- `Download` and `Set` the nginx configuration
+
+    Example below: 
+
+    ```
+    sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+    ```
+
+- `Restart` nginx
+
+    Example below: 
+
+    ```
+    sudo systemctl restart nginx
+    ```
+
  - `Get` the secret password and save it for future use. 
 
     Example below: 
@@ -96,7 +128,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     Example below: 
 
     ```
-    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo apt install -y nginx && sudo apt install -y curl && sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1 && sudo systemctl restart nginx && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     ```
 
 </details>

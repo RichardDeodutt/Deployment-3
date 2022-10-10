@@ -13,7 +13,8 @@ Home='/home/ubuntu'
 #Log file name for jenkins installation
 LogFileName="InstallAgent.log"
 
-ConfigNginx="https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/nginx-default"
+#The configuration for nginx
+ConfigNginx="https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default"
 
 #Set the log file location and name
 setlogs
@@ -38,7 +39,11 @@ main(){
     #Install curl if not already
     aptinstalllog "curl"
 
+    #Download and set the nginx configuration
     curl -s $ConfigNginx | tee /etc/nginx/sites-enabled/default > /dev/null 2>&1 && logokay "Successfully Set Nginx" || { logerror "Failure Setting Nginx" && exiterror ; }
+
+    #Restart the nginx service
+    systemctl restart nginx && logokay "Successfully restarted nginx" || { logerror "Failure restarting nginx" && exiterror ; }
 }
 
 #Log start
