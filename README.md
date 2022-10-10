@@ -95,51 +95,51 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
 
-<details>
+    <details>
 
-<summary>Config</summary>
+    <summary>Config</summary>
 
- - `/etc/nginx/sites-enabled/default` file. 
+    - `/etc/nginx/sites-enabled/default` file. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    sudo nano /etc/nginx/sites-enabled/default
-    ```
+        ```
+        sudo nano /etc/nginx/sites-enabled/default
+        ```
 
-    ```
-    server {
-            listen 80;
+        ```
+        server {
+                listen 80;
 
-            root /var/www/html;
+                root /var/www/html;
 
-            index index.html index.htm index.nginx-debian.html;
+                index index.html index.htm index.nginx-debian.html;
 
-            server_name _;
+                server_name _;
 
-            location / {
-                    proxy_pass http://127.0.0.1:8080;
-                    proxy_set_header Host $host;
-                    proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
-            }
-    }
-    ```
+                location / {
+                        proxy_pass http://127.0.0.1:8080;
+                        proxy_set_header Host $host;
+                        proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+                }
+        }
+        ```
 
-</details>
+    </details>
 
-<details>
+    <details>
 
-<summary>Download and Set</summary>
+    <summary>Download and Set</summary>
 
- - `/etc/nginx/sites-enabled/default` file. 
+    - `/etc/nginx/sites-enabled/default` file. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
-    ```
+        ```
+        sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+        ```
 
-</details>
+    </details>
 
 - `Restart` nginx
 
@@ -329,51 +329,51 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
 
-<details>
+    <details>
 
-<summary>Config</summary>
+    <summary>Config</summary>
 
- - `/etc/nginx/sites-enabled/default` file. 
+    - `/etc/nginx/sites-enabled/default` file. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    sudo nano /etc/nginx/sites-enabled/default
-    ```
+        ```
+        sudo nano /etc/nginx/sites-enabled/default
+        ```
 
-    ```
-    server {
-            listen 80;
+        ```
+        server {
+                listen 80;
 
-            root /var/www/html;
+                root /var/www/html;
 
-            index index.html index.htm index.nginx-debian.html;
+                index index.html index.htm index.nginx-debian.html;
 
-            server_name _;
+                server_name _;
 
-            location / {
-                    proxy_pass http://127.0.0.1:8000;
-                    proxy_set_header Host $host;
-                    proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
-            }
-    }
-    ```
+                location / {
+                        proxy_pass http://127.0.0.1:8000;
+                        proxy_set_header Host $host;
+                        proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+                }
+        }
+        ```
 
-</details>
+    </details>
 
-<details>
+    <details>
 
-<summary>Download and Set</summary>
+    <summary>Download and Set</summary>
 
- - `/etc/nginx/sites-enabled/default` file. 
+    - `/etc/nginx/sites-enabled/default` file. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
-    ```
+        ```
+        sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+        ```
 
-</details>
+    </details>
 
 - `Restart` nginx
 
