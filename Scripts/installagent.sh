@@ -29,6 +29,9 @@ main(){
 
     #Install python3.10-venv if not already
     aptinstalllog "python3.10-venv"
+
+    #Install nginx if not already
+    aptinstalllog "nginx"
 }
 
 #Log start

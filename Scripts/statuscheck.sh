@@ -25,7 +25,7 @@ main(){
     java -version > /dev/null 2>&1 && log "$(echo ; java -version)" || logwarning "Can't Check the version of Java"
     #Log Jenkins Status
     log "$(echo "Jenkins Status")"
-    systemctl status jenkins --no-pager > /dev/null 2>&1 && log "$(echo ; systemctl status jenkins --no-pager)" || logwarning "Can't Check the Status of Jenkins"
+    systemctl status jenkins --no-pager > /dev/null 2>&1 && log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)" || logwarning "Can't Check the Status of Jenkins"
     #Log Jenkins Secret Password if it exists(May not if jenkins is set up already and created a user on the webpage)
     log "$(echo "Secret Password")"
     cat /var/lib/jenkins/secrets/initialAdminPassword > /dev/null 2>&1 && logokay "$(cat /var/lib/jenkins/secrets/initialAdminPassword)" || logwarning "No Secret Password Found, May not be Needed"

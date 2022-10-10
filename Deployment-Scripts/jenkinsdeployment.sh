@@ -14,10 +14,10 @@ LogFileName="JenkinsDeployment.log"
 LogFile=$Home/$LogFileName
 
 #The Url of the repository to clone
-RepositoryURL='https://github.com/RichardDeodutt/Deployment-2.git'
+RepositoryURL='https://github.com/RichardDeodutt/Deployment-3.git'
 
 #The folder of the repository
-RepositoryFolder='Deployment-2'
+RepositoryFolder='Deployment-3'
 
 #Set the LogFile variable
 setlogs(){
