@@ -21,7 +21,7 @@ main(){
     #Install Screenfetch if not already
     aptinstalllog "screenfetch"
     #Log Java Status
-    java -version > /dev/null 2>&1 && log "$(echo "Java Version"; java -version)" || logwarning "Can't Check the version of Java"
+    java -version > /dev/null 2>&1 && log "$(echo "Java Version" ; echo $(java -version))" || logwarning "Can't Check the version of Java"
     #Log Jenkins Status
     systemctl status jenkins --no-pager > /dev/null 2>&1 && log "$(echo "Jenkins Status" ; systemctl status jenkins --no-pager)" || logwarning "Can't Check the Status of Jenkins"
     #Log Jenkins Secret Password if it exists(May not if jenkins is set up already and created a user on the webpage)
