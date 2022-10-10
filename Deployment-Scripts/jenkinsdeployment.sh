@@ -191,7 +191,7 @@ main(){
     #Install jenkins if not already
     installjenkins
     #Delay to load
-    #sleep 30
+    #sleep 10
     #Status check
     statuscheck
 }

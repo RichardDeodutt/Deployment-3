@@ -181,6 +181,144 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
+## Step 5: Create a VPC with a Public Subnet
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Navigate to the `VPC` section on the AWS services list from the AWS Console and click `Create VPC`. 
+
+- Under `Resources to create` select VPC only and under `Name tag - optional` enter a name for the VPC to recognize it easier. 
+
+- Under `IPv4 CIDR block` leave it at IPv4 CIDR manual input and under `IPv4 CIDR` enter a cider such as `172.25.0.0/16`. 
+
+- Everything else should be default so click `Create VPC`. 
+
+- Once the VPC is created click on `Subnets` to go to the subnets section then click `Create subnet` and under `VPC ID` select the VPC you just created. 
+
+- Under `Subnet name` enter a name for the subnet to recognize it easier. Under `Availability Zone` select any of them as it does not matter for now. For `IPv4 CIDR block` enter a cidr block such as `172.25.0.0/18`. 
+
+- Everything else should be default so click `Create subnet` to create the subnet. 
+
+- The route table should have automatically been created and we don't need to touch it so leave it alone. 
+
+- Once the subnet is created click on `Internet gateways` to go to the Internet gateways section then if a internet gateway is not already attached to your created VPC then click `Create internet gateway`.
+
+- Under `Name tag` enter a name for the internet gateway to recognize it easier. Once done click `Create internet gateway`. Once created attach it to your VPC to give your VPC internet. 
+
+</details>
+
+
+## Step 6: Prepare the Jenkins agent EC2 if you don't have one
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Create/Launch an EC2 using the AWS Console in your region of choice, `Asia Pacific (Tokyo) or ap-northeast-1` in my case. 
+
+- Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
+
+- Set the `Key pair(login)` to any keypair you have access to or create one. For `Network` use a different VPC than the default VPC and a public subnet and make sure `Auto-assign public IP` is enabled. `Network Settings` set the security group to one with ports 5000 and 22 open or create one with those ports open. Launch with `default settings` for the rest is fine. 
+
+- `SSH or connect` to the ec2 when it is running. 
+
+    Example below: 
+
+    ```
+    ssh -i ~/.ssh/keyfile.pem root@18.180.26.45
+    ```
+
+- `Update` the package repository source list. 
+
+    Example below: 
+
+    ```
+    sudo apt update
+    ```
+
+- `Install` the `apt` packages `default-jre`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y default-jre
+    ```
+
+- `Install` the `apt` packages `python3-pip`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y python3-pip
+    ```
+
+- `Install` the `apt` packages `python3.10-venv`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y python3.10-venv
+    ```
+
+- `Install` the `apt` packages `nginx`. 
+
+    Example below: 
+
+    ```
+    sudo apt install -y nginx
+
+- `Edit` /etc/nginx/sites-enabled/default to look like the following:
+
+<details>
+
+<summary>Config</summary>
+
+ - `/etc/nginx/sites-enabled/default` file. 
+
+    Example below: 
+
+    ```
+    sudo nano /etc/nginx/sites-enabled/default
+    ```
+
+    ```
+    server {
+            listen 5000;
+
+            root /var/www/html;
+
+            index index.html index.htm index.nginx-debian.html;
+
+            server_name _;
+
+            location / {
+                    proxy_pass http://127.0.0.1:5000;
+                    proxy_set_header Host $host;
+                    proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+            }
+    }
+    ```
+
+</details>
+
+</details>
+
+<details>
+
+<summary>One liner</summary>
+
+ - `One liner` to do do everything above at once. 
+
+    Example below: 
+
+    ```
+    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/nginx-default | tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+    ```
+
+</details>
+
 # Shortcuts
 
 ## Starting from scratch
