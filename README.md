@@ -93,13 +93,53 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     sudo apt install -y curl
     ```
 
-- `Download` and `Set` the nginx configuration
+- `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
+
+<details>
+
+<summary>Config</summary>
+
+ - `/etc/nginx/sites-enabled/default` file. 
+
+    Example below: 
+
+    ```
+    sudo nano /etc/nginx/sites-enabled/default
+    ```
+
+    ```
+    server {
+            listen 80;
+
+            root /var/www/html;
+
+            index index.html index.htm index.nginx-debian.html;
+
+            server_name _;
+
+            location / {
+                    proxy_pass http://127.0.0.1:8080;
+                    proxy_set_header Host $host;
+                    proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+            }
+    }
+    ```
+
+</details>
+
+<details>
+
+<summary>Download and Set</summary>
+
+ - `/etc/nginx/sites-enabled/default` file. 
 
     Example below: 
 
     ```
     sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
     ```
+
+</details>
 
 - `Restart` nginx
 
@@ -133,21 +173,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 2: Create a Jenkins user in your AWS account using IAM in the AWS Console if you don't have one
-
-<details>
-
-<summary>Step by Step</summary>
-
-- Create a user in [AWS IAM](https://us-east-1.console.aws.amazon.com/iamv2/home) for jenkins to get access with username `Eb-user` and AWS credential type of `Access key - Programmatic access`. 
-
-- Then select `Attach existing policies directly` and select `AdministratorAccess` permissions policy then click next tags and then next review to skip the tags and review the changes to be made. 
-
-- Review the changes to be made and click create user when ready and save the information provided after creation such as the `Access key ID` and `Secret access key` or download the csv with the information for future use. 
-
-</details>
-
-## Step 3: Connect GitHub to the Jenkins server
+## Step 2: Connect GitHub to the Jenkins server
 
 <details>
 
@@ -182,7 +208,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 4: Configure the Jenkins server
+## Step 3: Configure the Jenkins server
 
 <details>
 
@@ -213,7 +239,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 5: Create a VPC with a Public Subnet
+## Step 4: Create a VPC with a Public Subnet
 
 <details>
 
@@ -242,7 +268,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 </details>
 
 
-## Step 6: Prepare the Jenkins agent EC2 if you don't have one
+## Step 5: Prepare the Jenkins agent EC2 if you don't have one
 
 <details>
 
@@ -252,7 +278,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
 
-- Set the `Key pair(login)` to any keypair you have access to or create one. For `Network` use a different VPC than the default VPC and a public subnet and make sure `Auto-assign public IP` is enabled. `Network Settings` set the security group to one with ports 5000 and 22 open or create one with those ports open. Launch with `default settings` for the rest is fine. 
+- Set the `Key pair(login)` to any keypair you have access to or create one. For `Network` use a different VPC than the default VPC and a public subnet and make sure `Auto-assign public IP` is enabled. `Network Settings` set the security group to one with ports 80 and 22 open or create one with those ports open. Launch with `default settings` for the rest is fine. 
 
 - `SSH or connect` to the ec2 when it is running. 
 
@@ -301,7 +327,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ```
     sudo apt install -y nginx
 
-- `Edit` /etc/nginx/sites-enabled/default to look like the following:
+- `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
 
 <details>
 
@@ -317,7 +343,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     ```
     server {
-            listen 5000;
+            listen 80;
 
             root /var/www/html;
 
@@ -326,7 +352,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
             server_name _;
 
             location / {
-                    proxy_pass http://127.0.0.1:5000;
+                    proxy_pass http://127.0.0.1:8000;
                     proxy_set_header Host $host;
                     proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
             }
@@ -334,6 +360,28 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ```
 
 </details>
+
+<details>
+
+<summary>Download and Set</summary>
+
+ - `/etc/nginx/sites-enabled/default` file. 
+
+    Example below: 
+
+    ```
+    sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+    ```
+
+</details>
+
+- `Restart` nginx
+
+    Example below: 
+
+    ```
+    sudo systemctl restart nginx
+    ```
 
 </details>
 
@@ -346,7 +394,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     Example below: 
 
     ```
-    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
     ```
 
 </details>
