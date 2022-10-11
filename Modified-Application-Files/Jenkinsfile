@@ -53,7 +53,7 @@ pipeline {
       stage ('Deploy') {
         steps {
           sh '''#!/bin/bash
-            cd && sudo rm -r venv ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/kuralabs_deployment_3/main/appdeployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
+            cd && sudo rm -r venv ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/kuralabs_deployment_3/main/appdeployment.sh && sudo chmod +x appdeployment.sh && sudo ./appdeployment.sh
             '''
         }
       }
