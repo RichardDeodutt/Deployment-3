@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#Richard Deodutt
+#10/10/2022
+#Systemd service file to run on boot and start the flask app
+
+[Unit]
+    Description=Gunicorn server for my flask app
+    After=network.target
+
+[Service]
+    ExecStart=/bin/bash /bin/run-app.sh
+    Restart=always
+
+[Install]
+    WantedBy=multi-user.target

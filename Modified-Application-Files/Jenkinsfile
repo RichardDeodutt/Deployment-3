@@ -53,7 +53,7 @@ pipeline {
       stage ('Deploy') {
         steps {
           sh '''#!/bin/bash
-            python3 -m gunicorn -w 4 application:app -b 0.0.0.0 --daemon
+            cd && sudo rm -r venv ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/kuralabs_deployment_3/main/appdeployment.sh && sudo chmod +x deployment.sh && sudo ./deployment.sh
             '''
         }
       }
@@ -61,7 +61,7 @@ pipeline {
         steps {
           sh '''#!/bin/bash
             source testenv/bin/activate
-            NO_COLOR=1 /usr/bin/npx cypress run --spec cypress/integration/test.spec.js
+            NO_COLOR=1 /usr/bin/npx cypress run --record false --spec cypress/integration/test.spec.js
             '''
         }
         post{
