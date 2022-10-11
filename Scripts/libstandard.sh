@@ -107,7 +107,7 @@ logerror(){
 #Function to exit with a error code
 exiterror(){
     #Log error
-    logerror "Something went wrong with the installation. exiting"
+    logerror "Something went wrong. exiting"
     #Exit with error
     exit 1
 }

@@ -25,7 +25,7 @@ main(){
     source $Pathofvenv/bin/activate && logokay "Successfully activated the python venv directory" || { logerror "Failure activating the python venv directory" && exiterror ; }
 
     #Run the Flask App
-    cd $Pathofvenv/app && gunicorn --bind 0.0.0.0:8000 app:app && logokay "Successfully ran the app" || { logerror "Failure running the app" && exiterror ; }
+    cd $Pathofvenv && gunicorn --bind 0.0.0.0:8000 app:app && logokay "Successfully ran the app" || { logerror "Failure running the app" && exiterror ; }
 
     #Deactivate the venv
     deactivate && logokay "Successfully deactivated the python venv directory" || { logerror "Failure deactivating the python venv directory" && exiterror ; }
