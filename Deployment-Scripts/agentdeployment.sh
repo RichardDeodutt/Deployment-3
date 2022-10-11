@@ -166,30 +166,6 @@ installagent(){
     cat InstallAgent.log >> $LogFile
 }
 
-#Install the AWS CLI
-installawscli(){
-    #Change directory to the Scripts folder
-    cd $Home/$RepositoryFolder/Scripts/
-    #Run the install AWS CLI script
-    $Home/$RepositoryFolder/Scripts/installawscli.sh && logokay "Successfully installed the AWS CLI through a script" || { logerror "Failure installing the AWS CLI through a script" && exiterror ; }
-    #Change directory to the home folder
-    cd $Home
-    #Added the sub script logs to the deployment logs
-    cat InstallAWSCLI.log >> $LogFile
-}
-
-#Install the AWS EB CLI
-installawsebcli(){
-    #Change directory to the Scripts folder
-    cd $Home/$RepositoryFolder/Scripts/
-    #Run the install AWS EB CLI script
-    $Home/$RepositoryFolder/Scripts/installawsebcli.sh && logokay "Successfully installed the AWS EB CLI through a script" || { logerror "Failure installing the AWS EB CLI through a script" && exiterror ; }
-    #Change directory to the home folder
-    cd $Home
-    #Added the sub script logs to the deployment logs
-    cat InstallAWSEBCLI.log >> $LogFile
-}
-
 #Install the Cy Depends
 installcydepends(){
     #Change directory to the Scripts folder

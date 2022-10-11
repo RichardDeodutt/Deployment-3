@@ -61,7 +61,7 @@ pipeline {
         steps {
           sh '''#!/bin/bash
             source testenv/bin/activate
-            NO_COLOR=1 /usr/bin/npx cypress run --config videoRecording=false --spec cypress/integration/test.spec.js
+            NO_COLOR=1 /usr/bin/npx cypress run --config video=false --spec cypress/integration/test.spec.js
             '''
         }
         post{
