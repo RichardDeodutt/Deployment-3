@@ -53,7 +53,7 @@ pipeline {
       stage ('Deploy') {
         steps {
           sh '''#!/bin/bash
-            gunicorn -w 4 application:app -b 0.0.0.0 --daemon
+            python3 -m gunicorn -w 4 application:app -b 0.0.0.0 --daemon
             '''
         }
       }

@@ -568,7 +568,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
             cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
             ```
 
-        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-3' directory and the 'aws' directory if it was created from a previous deployment.** 
+        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-3' directory if it was created from a previous deployment.** 
 
             ```
             cd && sudo rm -r Deployment-3 ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/jenkinsdeployment.sh && sudo chmod +x jenkinsdeployment.sh && sudo ./jenkinsdeployment.sh
@@ -591,10 +591,10 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
             cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
             ```
 
-        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-3' directory and the 'aws' directory if it was created from a previous deployment.** 
+        - If you want to redo the deployment, run the commmand below **but it will delete the 'Deployment-3' directory if it was created from a previous deployment.** 
 
             ```
-            cd && sudo rm -r Deployment-3 ; sudo rm -r aws ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
+            cd && sudo rm -r Deployment-3 ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Deployment-Scripts/agentdeployment.sh && sudo chmod +x agentdeployment.sh && sudo ./agentdeployment.sh
             ```
 
 </details>
@@ -627,30 +627,6 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/installagent.sh && sudo chmod +x installagent.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installagent.sh
-        ```
-
-    </details>
-
-    <details>
-
-    <summary>Install The AWS CLI</summary>
-
-    - To install the AWS CLI. 
-
-        ```
-        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/installawscli.sh && sudo chmod +x installawscli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawscli.sh
-        ```
-
-    </details>
-
-    <details>
-
-    <summary>Install The AWS EB CLI('ubuntu' User)</summary>
-
-    - To install the AWS EB CLI as the 'ubuntu' user. 
-
-        ```
-        cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/installawsebcli.sh && sudo chmod +x installawsebcli.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installawsebcli.sh
         ```
 
     </details>
