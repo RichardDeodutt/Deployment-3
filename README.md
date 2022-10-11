@@ -208,38 +208,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 3: Configure the Jenkins server
-
-<details>
-
-<summary>Step by Step</summary>
-
-- Navigate to the Jenkins page using the url in a browser. 
-
-    Example URL
-    ```
-    http://35.77.201.219/
-    ```
-
-- Enter the `secret password or initial admin password` you saved earlier or get it again and enter it then click Continue. 
-
-    Example below: 
-
-    ```
-    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-    ```
-
-- For the `Customize Jenkins page` just click Install suggested plugins and wait for it to install the plugins `which may take some time`. 
-
-- Once that is done you will have a `Create First Admin User` page so fill out that page and save the information for future logins then click Save and Continue. 
-
-- After that is a `Instance Configuration` page where the default `Jenkins URL` should be correct already is similar to `http://35.77.201.219/` so click Save and Finish. 
-
-- The next page is the `Jenkins is ready!` page where you just click Start using Jenkins to finish configuring the Jenkins server and go to the home page. 
-
-</details>
-
-## Step 4: Create a VPC with a Public Subnet
+## Step 3: Create a VPC with a Public Subnet
 
 <details>
 
@@ -268,7 +237,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 </details>
 
 
-## Step 5: Prepare the Jenkins agent EC2 if you don't have one
+## Step 4: Prepare the Jenkins agent EC2 if you don't have one
 
 <details>
 
@@ -399,7 +368,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 6: Update the forked repository
+## Step 5: Update the forked repository
 
 <details>
 
@@ -449,7 +418,102 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 </details>
 
-## Step 7: Create a Multibranch Pipeline for the forked repository
+<details>
+
+<summary>One liner</summary>
+
+ - `One liner` to do do everything above at once. 
+
+    Example below: 
+
+    ```
+    git clone git@github.com:RichardDeodutt/Deployment-3.git ; git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git ; cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/ && cd kuralabs_deployment_3 && git add . && git commit -m "Update" && git push && cd ..
+    ```
+
+</details>
+
+## Step 6: Configure the Jenkins server
+
+<details>
+
+<summary>Step by Step</summary>
+
+- Navigate to the Jenkins page using the url in a browser. 
+
+    Example URL
+    ```
+    http://35.77.201.219/
+    ```
+
+- Enter the `secret password or initial admin password` you saved earlier or get it again and enter it then click Continue. 
+
+    Example below: 
+
+    ```
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+    ```
+
+- For the `Customize Jenkins page` just click Install suggested plugins and wait for it to install the plugins `which may take some time`. 
+
+- Once that is done you will have a `Create First Admin User` page so fill out that page and save the information for future logins then click Save and Continue. 
+
+- After that is a `Instance Configuration` page where the default `Jenkins URL` should be correct already is similar to `http://35.77.201.219/` so click Save and Finish. 
+
+- The next page is the `Jenkins is ready!` page where you just click Start using Jenkins to finish configuring the Jenkins server and go to the home page. 
+
+</details>
+
+## Step 7: Add the Jenkins agent node to the Jenkins server
+
+<details>
+
+<summary>Step by Step</summary>
+
+- In the Jenkins server homepage click `Build Executor Status` to go to the Manage nodes and clouds page of the Jenkins server then when it loads the page click `+ New Node` on the next page when it loads under `Node name` enter a name for the node to recognize it easier. Under `Type` select `Permanent Agent` and click `Create`. 
+
+- When the `Node` configuration options load enter the following. 
+
+    <details>
+
+    <summary>Settings</summary>
+
+    - Under `Name` enter a name for the Agent in my case I used Jenkins-Agent if it's not there already. Under `Description` enter a description for the Agent. 
+
+    - Under `Remote root directory` enter the following. Which is the working directory for the Jenkins agent. 
+
+        Example below: 
+
+        ```
+        /home/ubuntu/agent
+        ```
+
+    - Under `Labels` enter the following. 
+
+        Example below: 
+
+        ```
+        linux ubuntu ec2
+        ```
+
+    - Under `Usage` select Only build jobs with label expressions matching this node. Under `Launch method` select Launch agents via SSH. Under `Host` enter the public IP of the Jenkins agent instance. 
+
+    - Under `Credentials` where it says `- none -` under it is `+ Add` click it to open the dropdown menu and select the `Jenkins` option. When the popup loads under `Kind` select SSH Username with private key then when it loads under `Username` enter ubuntu then under `Private Key` select `Enter directly` and then click `Add`. In the textarea that appears copy and paste the contents of your `AWS SSH pem keyfile` to get it you can just `cat` the file and copy it from the terminal. Once the key is entered click Add to save it. If you don't have a keyfile you can create one in the AWS Console and download it then do this step. 
+
+        Example below: 
+
+        ```
+        cat ~/.ssh/keyfile.pem
+        ```
+
+    - Under `EC2 Key Pair's Private Key` where it says `- none -` click it to open the dropdown menu and select the `EC2 Key Pair's Private Key` you just added. 
+
+    - Under `Host Key Verification Strategy` select Non verifying Verification Strategy from the dropdown menu. Under `Availability` select Keep this agent online as much as possible. 
+
+- Once the done click `Save`. 
+
+</details>
+
+## Step 8: Create a Multibranch Pipeline for the forked repository
 
 <details>
 
