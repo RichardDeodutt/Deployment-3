@@ -245,7 +245,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 - Create/Launch an EC2 using the AWS Console in your region of choice, `Asia Pacific (Tokyo) or ap-northeast-1` in my case. 
 
-- Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t2.micro. 
+- Set the `Name and tags` `Name` to anything you want, `Application and OS Images (Amazon Machine Image)` to Ubuntu 64-bit (x86), `Instance type` to t3.micro. 
 
 - Set the `Key pair(login)` to any keypair you have access to or create one. For `Network` use a different VPC than the default VPC and a public subnet and make sure `Auto-assign public IP` is enabled. `Network Settings` set the security group to one with ports 80 and 22 open or create one with those ports open. Launch with `default settings` for the rest is fine. 
 

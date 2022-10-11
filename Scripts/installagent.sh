@@ -36,6 +36,9 @@ main(){
     #Install nginx if not already
     aptinstalllog "nginx"
 
+    #Install python3-gunicorn if not already
+    aptinstalllog "python3-gunicorn"
+
     #Install curl if not already
     aptinstalllog "curl"
 

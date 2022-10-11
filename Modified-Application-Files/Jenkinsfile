@@ -53,7 +53,6 @@ pipeline {
       stage ('Deploy') {
         steps {
           sh '''#!/bin/bash
-            source testenv/bin/activate
             gunicorn -w 4 application:app -b 0.0.0.0 --daemon
             '''
         }
