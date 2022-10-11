@@ -36,140 +36,145 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ```
     ssh -i ~/.ssh/keyfile.pem root@18.179.26.45
     ```
-
-- `Download` the `jenkins keyring` for the package repository source list. 
-
-    Example below: 
-
-    ```
-    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg
-    ```
-
-- `Install` the `jenkins keyring` to the package repository source list. 
-
-    Example below: 
-
-    ```
-    sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-    ```
-
-- `Update` the package repository source list. 
-
-    Example below: 
-
-    ```
-    sudo apt update
-    ```
-
-- `Install` the `apt` packages `default-jre`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y default-jre
-    ```
-
-- `Install` the `apt` packages `jenkins`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y jenkins
-    ```
-
-- `Install` the `apt` packages `nginx`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y nginx
-    ```
-
-- `Install` the `apt` packages `curl`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y curl
-    ```
-
-- `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
-
     <details>
 
-    <summary>Config</summary>
+    <summary>Single Commands</summary>
 
-    - `/etc/nginx/sites-enabled/default` file. 
+    - `Download` the `jenkins keyring` for the package repository source list. 
 
         Example below: 
 
         ```
-        sudo nano /etc/nginx/sites-enabled/default
+        wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg
         ```
 
+    - `Install` the `jenkins keyring` to the package repository source list. 
+
+        Example below: 
+
         ```
-        server {
-                listen 80;
+        sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+        ```
 
-                root /var/www/html;
+    - `Update` the package repository source list. 
 
-                index index.html index.htm index.nginx-debian.html;
+        Example below: 
 
-                server_name _;
+        ```
+        sudo apt update
+        ```
 
-                location / {
-                        proxy_pass http://127.0.0.1:8080;
-                        proxy_set_header Host $host;
-                        proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
-                }
-        }
+    - `Install` the `apt` packages `default-jre`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y default-jre
+        ```
+
+    - `Install` the `apt` packages `jenkins`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y jenkins
+        ```
+
+    - `Install` the `apt` packages `nginx`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y nginx
+        ```
+
+    - `Install` the `apt` packages `curl`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y curl
+        ```
+
+    - `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
+
+        <details>
+
+        <summary>Config</summary>
+
+        - `/etc/nginx/sites-enabled/default` file. 
+
+            Example below: 
+
+            ```
+            sudo nano /etc/nginx/sites-enabled/default
+            ```
+
+            ```
+            server {
+                    listen 80;
+
+                    root /var/www/html;
+
+                    index index.html index.htm index.nginx-debian.html;
+
+                    server_name _;
+
+                    location / {
+                            proxy_pass http://127.0.0.1:8080;
+                            proxy_set_header Host $host;
+                            proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+                    }
+            }
+            ```
+
+        </details>
+
+        <details>
+
+        <summary>Download and Set</summary>
+
+        - `/etc/nginx/sites-enabled/default` file. 
+
+            Example below: 
+
+            ```
+            sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+            ```
+
+        </details>
+
+    - `Restart` nginx
+
+        Example below: 
+
+        ```
+        sudo systemctl restart nginx
+        ```
+
+    - `Get` the secret password and save it for future use. 
+
+        Example below: 
+
+        ```
+        sudo cat /var/lib/jenkins/secrets/initialAdminPassword
         ```
 
     </details>
 
     <details>
 
-    <summary>Download and Set</summary>
+    <summary>One Liner</summary>
 
-    - `/etc/nginx/sites-enabled/default` file. 
+    - `One Liner` to do do everything above at once. 
 
         Example below: 
 
         ```
-        sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+        wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo apt install -y nginx && sudo apt install -y curl && sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1 && sudo systemctl restart nginx && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
         ```
 
     </details>
-
-- `Restart` nginx
-
-    Example below: 
-
-    ```
-    sudo systemctl restart nginx
-    ```
-
- - `Get` the secret password and save it for future use. 
-
-    Example below: 
-
-    ```
-    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-    ```
-
-</details>
-
-<details>
-
-<summary>One liner</summary>
-
- - `One liner` to do do everything above at once. 
-
-    Example below: 
-
-    ```
-    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/jenkins.gpg && sudo sh -c 'echo deb [signed-by=/usr/share/keyrings/jenkins.gpg] http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && sudo apt update && sudo apt install -y default-jre && sudo apt install -y jenkins && sudo apt install -y nginx && sudo apt install -y curl && sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/server-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1 && sudo systemctl restart nginx && sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-    ```
 
 </details>
 
@@ -257,114 +262,120 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
     ssh -i ~/.ssh/keyfile.pem root@18.180.26.45
     ```
 
-- `Update` the package repository source list. 
-
-    Example below: 
-
-    ```
-    sudo apt update
-    ```
-
-- `Install` the `apt` packages `default-jre`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y default-jre
-    ```
-
-- `Install` the `apt` packages `python3-pip`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y python3-pip
-    ```
-
-- `Install` the `apt` packages `python3.10-venv`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y python3.10-venv
-    ```
-
-- `Install` the `apt` packages `nginx`. 
-
-    Example below: 
-
-    ```
-    sudo apt install -y nginx
-
-- `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
-
     <details>
 
-    <summary>Config</summary>
+    <summary>Single Commands</summary>
 
-    - `/etc/nginx/sites-enabled/default` file. 
+    - `Update` the package repository source list. 
 
         Example below: 
 
         ```
-        sudo nano /etc/nginx/sites-enabled/default
+        sudo apt update
         ```
 
+    - `Install` the `apt` packages `default-jre`. 
+
+        Example below: 
+
         ```
-        server {
-                listen 80;
+        sudo apt install -y default-jre
+        ```
 
-                root /var/www/html;
+    - `Install` the `apt` packages `python3-pip`. 
 
-                index index.html index.htm index.nginx-debian.html;
+        Example below: 
 
-                server_name _;
+        ```
+        sudo apt install -y python3-pip
+        ```
 
-                location / {
-                        proxy_pass http://127.0.0.1:8000;
-                        proxy_set_header Host $host;
-                        proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
-                }
-        }
+    - `Install` the `apt` packages `python3.10-venv`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y python3.10-venv
+        ```
+
+    - `Install` the `apt` packages `nginx`. 
+
+        Example below: 
+
+        ```
+        sudo apt install -y nginx
+
+    - `Edit` /etc/nginx/sites-enabled/default to look like the following or `Download` and `Set` the nginx configuration. 
+
+        <details>
+
+        <summary>Config</summary>
+
+        - `/etc/nginx/sites-enabled/default` file. 
+
+            Example below: 
+
+            ```
+            sudo nano /etc/nginx/sites-enabled/default
+            ```
+
+            ```
+            server {
+                    listen 80;
+
+                    root /var/www/html;
+
+                    index index.html index.htm index.nginx-debian.html;
+
+                    server_name _;
+
+                    location / {
+                            proxy_pass http://127.0.0.1:8000;
+                            proxy_set_header Host $host;
+                            proxy_set_header x-Forward-For $proxy_add_x_forwarded_for;
+                    }
+            }
+            ```
+
+        </details>
+
+        <details>
+
+        <summary>Download and Set</summary>
+
+        - `/etc/nginx/sites-enabled/default` file. 
+
+            Example below: 
+
+            ```
+            sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+            ```
+
+        </details>
+
+    - `Restart` nginx
+
+        Example below: 
+
+        ```
+        sudo systemctl restart nginx
         ```
 
     </details>
 
     <details>
 
-    <summary>Download and Set</summary>
+    <summary>One Liner</summary>
 
-    - `/etc/nginx/sites-enabled/default` file. 
+    - `One Liner` to do do everything above at once. 
 
         Example below: 
 
         ```
-        sudo curl -s "https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default" | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
+        sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
         ```
 
     </details>
-
-- `Restart` nginx
-
-    Example below: 
-
-    ```
-    sudo systemctl restart nginx
-    ```
-
-</details>
-
-<details>
-
-<summary>One liner</summary>
-
- - `One liner` to do do everything above at once. 
-
-    Example below: 
-
-    ```
-    sudo apt update && sudo apt install -y default-jre && sudo apt install -y python3-pip && sudo apt install -y python3.10-venv && sudo apt install -y nginx && sudo curl -s https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Configs/agent-nginx-default | sudo tee /etc/nginx/sites-enabled/default > /dev/null 2>&1
-    ```
 
 </details>
 
@@ -374,61 +385,69 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 <summary>Step by Step</summary>
 
-- `Clone or download` [this repository](https://github.com/RichardDeodutt/Deployment-3) to get the files locally on your computer. 
+- This is to update the forked [deployment repository](https://github.com/RichardDeodutt/kuralabs_deployment_3) using [this repository](https://github.com/RichardDeodutt/Deployment-3). 
 
-    Example below: 
+    <details>
 
-    ```
-    git clone git@github.com:RichardDeodutt/Deployment-3.git
-    ```
+    <summary>Step by Step</summary>
 
-- `Clone your forked repository` in my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 if you have not already done so to have it locally on your computer. 
+    - `Clone or download` [this repository](https://github.com/RichardDeodutt/Deployment-3) to get the files locally on your computer. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git
-    ```
+        ```
+        git clone git@github.com:RichardDeodutt/Deployment-3.git
+        ```
 
-- `Everything` in the folder [Modified-Application-Files](https://github.com/RichardDeodutt/Deployment-3/tree/main/Modified-Application-Files) should be `copied over` to the `root` of your forked repository. In my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 and it should replace and overwrite the existing files there. 
+    - `Clone your forked repository` in my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 if you have not already done so to have it locally on your computer. 
 
-    Example below: 
+        Example below: 
 
-    ```
-    cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/
-    ```
+        ```
+        git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git
+        ```
 
-- You may want to edit the [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/Jenkinsfile) on your forked repository to have the `Deploy` stage use the region of your choice in my case I selected ap-northeast-1.
+    - `Everything` in the folder [Modified-Application-Files](https://github.com/RichardDeodutt/Deployment-3/tree/main/Modified-Application-Files) should be `copied over` to the `root` of your forked repository. In my case that would be https://github.com/RichardDeodutt/kuralabs_deployment_3 and it should replace and overwrite the existing files there. 
 
-- Once these changes are made and the newly forked repository is `patched` `commit` and `push` these changes to make sure they are on your `online GitHub repository` as in the website. 
+        Example below: 
 
-    Example below: 
+        ```
+        cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/
+        ```
 
-    ```
-    git add .
-    ```
+    - You may want to edit the [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/Jenkinsfile) on your forked repository to have the `Deploy` stage use the region of your choice in my case I selected ap-northeast-1.
 
-    ```
-    git commit -m "Update"
-    ```
+    - Once these changes are made and the newly forked repository is `patched` `commit` and `push` these changes to make sure they are on your `online GitHub repository` as in the website. 
 
-    ```
-    git push
-    ```
+        Example below: 
 
-</details>
+        ```
+        git add .
+        ```
 
-<details>
+        ```
+        git commit -m "Update"
+        ```
 
-<summary>One liner</summary>
+        ```
+        git push
+        ```
 
- - `One liner` to do do everything above at once. 
+    </details>
 
-    Example below: 
+    <details>
 
-    ```
-    git clone git@github.com:RichardDeodutt/Deployment-3.git ; git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git ; cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/ && cd kuralabs_deployment_3 && git add . && git commit -m "Update" && git push && cd ..
-    ```
+    <summary>One Liner</summary>
+
+    - `One Liner` to do do everything above at once. 
+
+        Example below: 
+
+        ```
+        git clone git@github.com:RichardDeodutt/Deployment-3.git ; git clone git@github.com:RichardDeodutt/kuralabs_deployment_3.git ; cp -a Deployment-3/Modified-Application-Files/* kuralabs_deployment_3/ && cd kuralabs_deployment_3 && git add . && git commit -m "Update" && git push && cd ..
+        ```
+
+    </details>
 
 </details>
 
@@ -605,7 +624,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
 <summary>Parts</summary>
 
-- If you just want to install a specific part run the corresponding script below.
+- If you just want to install a specific part run the corresponding script below. 
 
     <details>
 
@@ -635,7 +654,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Install Cypress Dependencies</summary>
 
-    - To install Cypress dependencies.
+    - To install Cypress dependencies. 
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/installcydepends.sh && sudo chmod +x installcydepends.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./installcydepends.sh
@@ -647,7 +666,7 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     <summary>Check Deployment Status</summary>
 
-    - To check the status after a deployment.
+    - To check the status after a deployment. 
 
         ```
         cd && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/statuscheck.sh && sudo chmod +x statuscheck.sh && curl -s -O https://raw.githubusercontent.com/RichardDeodutt/Deployment-3/main/Scripts/libstandard.sh && sudo chmod +x libstandard.sh && sudo ./statuscheck.sh
@@ -655,9 +674,23 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 
     </details>
 
+    <details>
+
+    <summary>Install The Flask App</summary>
+
+    - To install the flask app. 
+
+        ```
+        cd && sudo rm -r venv ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/kuralabs_deployment_3/main/appdeployment.sh && sudo chmod +x appdeployment.sh && sudo ./appdeployment.sh
+        ```
+
+    </details>
+
 </details>
 
 # Why?
+
+- I turned off creating a video for the cypress test because it is hosting the server and running the cypress test on the same machine then creating a video which is too much for the instance I am using to handle. 
 
 # Issues
 
