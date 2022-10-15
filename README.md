@@ -778,13 +778,13 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 
     </details>
 
-## Pipeline
+## Pipeline and VPC
 
-- Diagram of the pipeline. 
+- Diagram of the pipeline and VPC. 
 
     <details>
 
-    <summary>Pipeline</summary>
+    <summary>Pipeline and VPC</summary>
 
     <br>
 
