@@ -794,20 +794,6 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 
     </details>
 
-## Documentation
-
-- Documentation of everything. 
-
-    <details>
-
-    <summary>Documentation</summary>
-
-    <br>
-
-    - [Documentation](https://github.com/RichardDeodutt/Deployment-3/blob/main/README.md). 
-
-    </details>
-
 ## Software Stack
 
 - Type of software stack used. 
@@ -821,6 +807,20 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
     <p align="center">
     <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Stack.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Stack.png" />
     </p>
+
+    </details>
+
+## Documentation
+
+- Documentation of everything. 
+
+    <details>
+
+    <summary>Documentation</summary>
+
+    <br>
+
+    - [Documentation](https://github.com/RichardDeodutt/Deployment-3/blob/main/README.md). 
 
     </details>
 
@@ -953,3 +953,7 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 # Issues
 
 - Any code not up to `Pylint's standard` in [application.py](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/application.py) will throw a `"error"` and fail the test breaking the `rest of the chain` even if the error in question is `just a style thing` and `not a real error`. 
+
+# Improvements
+
+- A better linter that isn't so strict. 
