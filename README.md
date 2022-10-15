@@ -1,9 +1,29 @@
 # Deployment-3
+
 Set up a CI/CD pipeline from start to finish using a Jenkins server and Jenkins agent in different VPCs.
 
 Using Elastic Beanstalk and customizing the pipeline. 
 
 Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deployment_3) Flask app.
+
+
+# Objective: 
+
+Deployment 3: Flask App
+
+Objective: Learn how to deploy to your own VPC
+
+● Be sure to follow instructions.
+
+● After you have successfully deployed your application to your VPC, add to the pipeline and diagram.
+
+● Document the process and any issues you run into while setting up the deployment and what you did to fix it.
+
+● Lastly save your documentation and diagram into your repository and submit the link to your repository.
+
+Take away: You will understand the purpose of a deploying to your own VPC.
+
+Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 
 # Notes before starting
 
@@ -565,6 +585,228 @@ Deploying a [url-shortener](https://github.com/RichardDeodutt/kuralabs_deploymen
 - Once the pipeline is configured click `Apply` and `Save`. 
 
 </details>
+
+## Additions from Deployment-2
+
+- Add another test. 
+
+    <details>
+
+    <summary>Another Test</summary>
+
+    - Stage below: 
+
+        ```
+        stage ('Pytest') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                py.test --verbose --junit-xml test-reports/pytest-results.xml
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/pytest-results.xml'
+            }
+            }
+        }
+        ```
+
+    - Added Test [Pytest](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/test_pages.py). 
+
+    </details>
+
+- Add a way to notify you. 
+
+    <details>
+
+    <summary>Notifications</summary>
+
+    - Download and Install [catlight](https://catlight.io/downloads). 
+
+    - Add a `Connection` to Jenkins and enter the `Jenkins server url` then enter your credentials, the `username` and `password` you created and connect. 
+
+    - Once connected select the projects you want `to get notifications from` and Save. 
+
+    - It will send a desktop notification when a build `fails or passes`. 
+
+    <details>
+
+    <summary>Dashboard</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Dashboard.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Dashboard.png" />
+    </p>
+
+    </details>
+
+    <details>
+
+    <summary>Notifications</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Notifications.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Notifications.png" />
+    </p>
+
+    </details>
+
+    <details>
+
+    <summary>Broken</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Broken.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Broken.png" />
+    </p>
+
+    </details>
+
+    </details>
+
+- Use Cypress for testing. 
+
+    <details>
+
+    <summary>E2E Test with Cypress</summary>
+
+    - Stages below: 
+
+        ```
+        stage ('Build Tools') {
+            steps {
+            sh '''#!/bin/bash
+            source testenv/bin/activate
+            node --max-old-space-size=100 /usr/bin/npm install --save-dev cypress@7.6.0
+            /usr/bin/npx cypress verify
+            '''
+            }
+        }
+        ```
+
+        ```
+        stage ('Deploy') {
+            steps {
+            sh '''#!/bin/bash
+                cd && sudo rm -r venv ; curl -s -O https://raw.githubusercontent.com/RichardDeodutt/kuralabs_deployment_3/main/appdeployment.sh && sudo chmod +x appdeployment.sh && sudo ./appdeployment.sh
+                '''
+            }
+        }
+        ```
+
+        ```
+        stage ('Cypress E2E') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                NO_COLOR=1 /usr/bin/npx cypress run --config video=false --spec cypress/integration/test.spec.js
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/cypress-results.xml'
+            }
+            }
+        }
+        ```
+
+    - Added Test [Cypress](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/cypress/integration/test.spec.js). 
+
+    - Added Config [Cypress](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/cypress.json). 
+
+    - Modified Fixed [Jenkinsfile](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/Jenkinsfile). 
+
+    </details>
+
+- Add a linter. 
+
+    <details>
+
+    <summary>Linter</summary>
+
+    - Stage below: 
+
+        ```
+        stage ('Pylint') {
+            steps {
+            sh '''#!/bin/bash
+                source testenv/bin/activate
+                pylint --output-format=text,pylint_junit.JUnitReporter:test-reports/pylint-results.xml application.py
+                '''
+            }
+            post{
+            always {
+                junit 'test-reports/pylint-results.xml'
+            }
+            }
+        }
+        ```
+
+    - Modified Pip [Requirements](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/requirements.txt). 
+
+    - Modified Fixed [Application](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/application.py). 
+
+    </details>
+
+- Change something on the application front. 
+
+    <details>
+
+    <summary>Changes</summary>
+
+    - Modified Template [Base](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/templates/base.html). 
+
+    - Modified Template [Home](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/templates/home.html). 
+
+    - Modified Style [CSS](https://github.com/RichardDeodutt/Deployment-3/blob/main/Modified-Application-Files/static/style.css). 
+
+    <details>
+
+    <summary>Makeover</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Makeover.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Makeover.png" />
+    </p>
+
+    </details>
+
+    </details>
+
+## Task 2: Diagram the new pipeline
+
+- Create a diagram for the new pipeline. 
+
+    <details>
+
+    <summary>Pipeline</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Pipeline.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Pipeline.png" />
+    </p>
+
+    </details>
+
+## Task 3: Create documentation
+
+- Create documentation of everything. 
+
+    <details>
+
+    <summary>Documentation</summary>
+
+    <br>
+
+    - [Documentation](https://github.com/RichardDeodutt/Deployment-3/blob/main/README.md). 
+
+    </details>
 
 # Shortcuts
 
