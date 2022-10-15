@@ -778,9 +778,9 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 
     </details>
 
-## Task 2: Diagram the new pipeline
+## Pipeline
 
-- Create a diagram for the new pipeline. 
+- Diagram of the pipeline. 
 
     <details>
 
@@ -794,9 +794,9 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
 
     </details>
 
-## Task 3: Create documentation
+## Documentation
 
-- Create documentation of everything. 
+- Documentation of everything. 
 
     <details>
 
@@ -805,6 +805,22 @@ Repo link: https://github.com/kura-labs-org/kuralabs_deployment_3.git
     <br>
 
     - [Documentation](https://github.com/RichardDeodutt/Deployment-3/blob/main/README.md). 
+
+    </details>
+
+## Software Stack
+
+- Type of software stack used. 
+
+    <details>
+
+    <summary>Software Stack</summary>
+
+    <br>
+
+    <p align="center">
+    <a href="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Stack.png"><img src="https://github.com/RichardDeodutt/Deployment-3/blob/main/Images/Stack.png" />
+    </p>
 
     </details>
 
